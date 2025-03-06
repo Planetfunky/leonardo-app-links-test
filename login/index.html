@@ -7,7 +7,9 @@
     <!-- App Links meta tags -->
     <meta property="al:android:package" content="com.webpartners.leonardo" />
     <meta property="al:android:app_name" content="Leonardo247" />
-    <meta property="al:android:url" content="leonardo://login" />
+    <meta property="al:android:url" content="https://planetfunk-deelinking.netlify.app/login" />
+    <!-- Digital Asset Links -->
+    <link rel="assetlinks.json" href="../app-links/assetlinks.json" />
     
     <style>
         body {
@@ -77,17 +79,25 @@
     <script>
         // Try to open the app when the page loads
         window.onload = function() {
-            // Try to open the app using the custom scheme
-            window.location.href = 'leonardo://login';
+            // First try App Links URL
+            window.location.href = 'https://planetfunk-deelinking.netlify.app/login';
             
-            // After a delay, if the app didn't open, the user will see the buttons
-            // to either try again or download the app
+            // After a delay, try the custom scheme as fallback
+            setTimeout(function() {
+                window.location.href = 'leonardo://login';
+            }, 1000);
         }
 
         // Handle manual button click
         document.getElementById('openApp').addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'leonardo://login';
+            // Try App Links URL first
+            window.location.href = 'https://planetfunk-deelinking.netlify.app/login';
+            
+            // After a delay, try the custom scheme
+            setTimeout(function() {
+                window.location.href = 'leonardo://login';
+            }, 1000);
         });
     </script>
 </body>
