@@ -1,1 +1,8 @@
 # No redirects - serve files directly to match production setup
+
+# Headers configuration for Universal Links
+[[headers]]
+  for = "/.well-known/apple-app-site-association"
+  [headers.values]
+    Content-Type = "application/json"
+    Access-Control-Allow-Origin = "*"
