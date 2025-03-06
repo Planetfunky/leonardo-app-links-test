@@ -110,30 +110,43 @@
             e.preventDefault();
             
             const now = Date.now();
-            const timeout = 2000; // Increased timeout to 2 seconds
+            const timeout = 2500; // Increased timeout for iOS
             const appUrl = 'https://planetfunk-deelinking.netlify.app/login';
             const customScheme = 'leonardo://login';
             const storeUrl = isIOS() 
                 ? 'https://apps.apple.com/us/app/leonardo247/id1481698759'
                 : 'https://play.google.com/store/apps/details?id=com.webpartners.leonardo';
             
-            // Try App/Universal Links first
-            window.location.href = appUrl;
-            
-            // Set up store fallback
-            setTimeout(function() {
-                // If we're still here after timeout, try custom scheme
-                if (Date.now() - now < timeout + 100) {
-                    window.location.href = customScheme;
+            // For iOS, we need to handle Universal Links differently
+            if (isIOS()) {
+                // First try Universal Link
+                window.location.replace(appUrl);
+                
+                // Fallback to custom scheme after timeout
+                setTimeout(function() {
+                    window.location.replace(customScheme);
                     
-                    // Double fallback to store
+                    // Final fallback to App Store
                     setTimeout(function() {
-                        if (Date.now() - now < timeout * 2) {
-                            window.location.href = storeUrl;
-                        }
+                        window.location.replace(storeUrl);
                     }, timeout);
-                }
-            }, timeout);
+                }, timeout);
+            } else {
+                // Android handling remains the same
+                window.location.href = appUrl;
+                
+                setTimeout(function() {
+                    if (Date.now() - now < timeout + 100) {
+                        window.location.href = customScheme;
+                        
+                        setTimeout(function() {
+                            if (Date.now() - now < timeout * 2) {
+                                window.location.href = storeUrl;
+                            }
+                        }, timeout);
+                    }
+                }, timeout);
+            }
         });
     </script>
 </body>
