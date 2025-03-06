@@ -3,17 +3,10 @@
         "apps": [],
         "details": [{
             "appID": "A84NWMZFJP.com.webpartners.leonardo",
-            "paths": ["/login", "/login/*", "/login/ios.html"],
-            "appIDs": ["A84NWMZFJP.com.webpartners.leonardo"],
+            "paths": ["/login/*"],
             "components": [{
-                "/": "/login",
-                "comment": "Matches the login path"
-            }, {
                 "/": "/login/*",
-                "comment": "Matches any path under login"
-            }, {
-                "/": "/login/ios.html",
-                "comment": "Matches the iOS page directly"
+                "comment": "Matches any path under /login"
             }]
         }]
     },
