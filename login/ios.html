@@ -68,12 +68,12 @@
         <p class="text">Access your Leonardo247 account through our iOS app</p>
         
         <!-- Universal Links button -->
-        <a href="https://planetfunk-deelinking.netlify.app/login" class="button" id="openApp">
+        <button class="button" id="openApp">
             Open in App
-        </a>
+        </button>
         
         <p class="text">Don't have the app?</p>
-        <a href="https://apps.apple.com/us/app/leonardo247/id1481698759" class="button">
+        <a href="https://apps.apple.com/us/app/leonardo247/id1481698759" class="button" id="appStore">
             Download on App Store
         </a>
         
@@ -83,25 +83,54 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const openAppButton = document.getElementById('openApp');
+            const appStoreButton = document.getElementById('appStore');
+            
             const customScheme = 'leonardo://login';
             const universalLink = 'https://planetfunk-deelinking.netlify.app/login';
             const appStoreLink = 'https://apps.apple.com/us/app/leonardo247/id1481698759';
             
-            // Function to try opening the app
-            function tryOpenApp() {
-                // First attempt: Universal Link
+            let clickTime;
+            let timeout;
+            
+            function tryOpenApp(e) {
+                e.preventDefault();
+                clickTime = Date.now();
+                
+                // Try Universal Link first
                 window.location.href = universalLink;
                 
-                // Set a timeout to redirect to App Store if the app doesn't open
-                setTimeout(function() {
-                    window.location.href = appStoreLink;
-                }, 2500);
+                // Set a timeout to try custom scheme if Universal Link fails
+                timeout = setTimeout(function() {
+                    // If we're still here after 1.5s, try custom scheme
+                    if (Date.now() - clickTime < 3000) {
+                        window.location.href = customScheme;
+                        
+                        // Set another timeout for App Store
+                        setTimeout(function() {
+                            if (Date.now() - clickTime < 4500) {
+                                window.location.href = appStoreLink;
+                            }
+                        }, 1500);
+                    }
+                }, 1500);
             }
             
+            // Handle visibility change
+            document.addEventListener('visibilitychange', function() {
+                // Clear timeout if app was opened
+                if (document.hidden) {
+                    clearTimeout(timeout);
+                }
+            });
+            
             // Add click handler
-            openAppButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                tryOpenApp();
+            openAppButton.addEventListener('click', tryOpenApp);
+            
+            // Prevent default navigation for app store link if app is opened
+            appStoreButton.addEventListener('click', function(e) {
+                if (timeout) {
+                    e.preventDefault();
+                }
             });
         });
     </script>
