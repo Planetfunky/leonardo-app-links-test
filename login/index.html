@@ -31,11 +31,6 @@
             max-width: 400px;
             width: 90%;
         }
-        .logo {
-            width: 150px;
-            height: auto;
-            margin-bottom: 2rem;
-        }
         .button {
             background-color: #007AFF;
             color: white;
@@ -77,28 +72,8 @@
     </div>
 
     <script>
-        // Try to open the app when the page loads
-        window.onload = function() {
-            // First try App Links URL
-            window.location.href = 'https://planetfunk-deelinking.netlify.app/login';
-            
-            // After a delay, try the custom scheme as fallback
-            setTimeout(function() {
-                window.location.href = 'leonardo://login';
-            }, 1000);
-        }
-
-        // Handle manual button click
-        document.getElementById('openApp').addEventListener('click', function(e) {
-            e.preventDefault();
-            // Try App Links URL first
-            window.location.href = 'https://planetfunk-deelinking.netlify.app/login';
-            
-            // After a delay, try the custom scheme
-            setTimeout(function() {
-                window.location.href = 'leonardo://login';
-            }, 1000);
-        });
+        // Try to open the app immediately on page load
+        window.location.href = 'leonardo://login';
     </script>
 </body>
 </html>
