@@ -77,7 +77,7 @@
     <div class="container">
         <h1>Leonardo247</h1>
         <p class="text">Access your Leonardo247 account through our mobile app</p>
-        <a href="#" class="button" id="openApp">Open in App</a>
+        <button class="button" id="openApp">Open in App</button>
         <p class="text">Don't have the app?</p>
         <div class="store-buttons">
             <a href="https://play.google.com/store/apps/details?id=com.webpartners.leonardo" class="button store-button android-store">
@@ -109,27 +109,30 @@
         document.getElementById('openApp').addEventListener('click', function(e) {
             e.preventDefault();
             
+            const now = Date.now();
+            const timeout = 2000; // Increased timeout to 2 seconds
             const appUrl = 'https://planetfunk-deelinking.netlify.app/login';
-            const fallbackUrl = 'leonardo://login';
-            const timeout = 1000;
-
-            // Try Universal/App Links first
+            const customScheme = 'leonardo://login';
+            const storeUrl = isIOS() 
+                ? 'https://apps.apple.com/us/app/leonardo247/id1481698759'
+                : 'https://play.google.com/store/apps/details?id=com.webpartners.leonardo';
+            
+            // Try App/Universal Links first
             window.location.href = appUrl;
             
-            // Set up fallback
+            // Set up store fallback
             setTimeout(function() {
-                // If we're still here, try custom scheme
-                window.location.href = fallbackUrl;
-                
-                // Set up store fallback
-                setTimeout(function() {
-                    // If we're still here, user probably doesn't have the app
-                    if (isIOS()) {
-                        window.location.href = 'https://apps.apple.com/us/app/leonardo247/id1481698759';
-                    } else if (isAndroid()) {
-                        window.location.href = 'https://play.google.com/store/apps/details?id=com.webpartners.leonardo';
-                    }
-                }, timeout);
+                // If we're still here after timeout, try custom scheme
+                if (Date.now() - now < timeout + 100) {
+                    window.location.href = customScheme;
+                    
+                    // Double fallback to store
+                    setTimeout(function() {
+                        if (Date.now() - now < timeout * 2) {
+                            window.location.href = storeUrl;
+                        }
+                    }, timeout);
+                }
             }, timeout);
         });
     </script>
