@@ -61,6 +61,9 @@
         .back-link:hover {
             text-decoration: underline;
         }
+        #customScheme {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -68,9 +71,14 @@
         <h1>Leonardo247</h1>
         <p class="text">Access your Leonardo247 account through our iOS app</p>
         
-        <!-- Universal Links with matching path -->
-        <a href="https://planetfunk-deelinking.netlify.app/login/ios.html" class="button">
+        <!-- Universal Links button -->
+        <a href="https://planetfunk-deelinking.netlify.app/login/ios.html" class="button" id="openApp">
             Open in App
+        </a>
+        
+        <!-- Custom scheme fallback -->
+        <a href="leonardo://login" id="customScheme">
+            Open with Custom Scheme
         </a>
         
         <p class="text">Don't have the app?</p>
@@ -80,5 +88,24 @@
         
         <a href="/" class="back-link">← Back to Platform Selection</a>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const openAppButton = document.getElementById('openApp');
+            const customScheme = document.getElementById('customScheme');
+            
+            openAppButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Try Universal Link first
+                window.location.href = this.href;
+                
+                // If app doesn't open after 1.5 seconds, try custom scheme
+                setTimeout(function() {
+                    customScheme.click();
+                }, 1500);
+            });
+        });
+    </script>
 </body>
 </html>
