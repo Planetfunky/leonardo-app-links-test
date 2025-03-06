@@ -72,8 +72,16 @@
     </div>
 
     <script>
-        // Try to open the app immediately on page load
-        window.location.href = 'leonardo://login';
+        // Try App Links URL first, fallback to custom scheme
+        window.onload = function() {
+            // First try the App Links URL
+            window.location.href = 'https://planetfunk-deelinking.netlify.app/login';
+            
+            // Fallback to custom scheme after a short delay
+            setTimeout(function() {
+                window.location.href = 'leonardo://login';
+            }, 1000);
+        }
     </script>
 </body>
 </html>
