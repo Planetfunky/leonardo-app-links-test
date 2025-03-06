@@ -2,15 +2,20 @@
     "applinks": {
         "apps": [],
         "details": [{
-            "appID": "A84NWMZFJP.com.webpartners.leonardo",
-            "paths": ["/login/*"],
+            "appID": "A84NWMZFJP.com.webpartners.Leonardo",
+            "paths": [
+                "/login",
+                "/login/*",
+                "/login/ios.html",
+                "/login/ios.html?*"
+            ],
             "components": [{
                 "/": "/login/*",
-                "comment": "Matches any path under /login"
+                "comment": "Matches any URL under /login"
             }]
         }]
     },
     "webcredentials": {
-        "apps": ["A84NWMZFJP.com.webpartners.leonardo"]
+        "apps": ["A84NWMZFJP.com.webpartners.Leonardo"]
     }
 }
