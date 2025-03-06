@@ -1,3 +1,7 @@
+[build]
+  publish = "/"
+  command = "#"  # Skip build command
+
 [[headers]]
   for = "/.well-known/*"
   [headers.values]
