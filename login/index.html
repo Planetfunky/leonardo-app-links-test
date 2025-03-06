@@ -77,11 +77,6 @@
     </div>
 
     <script>
-        // Handle trailing slashes by redirecting to the canonical URL
-        if (window.location.pathname.endsWith('/') && window.location.pathname !== '/') {
-            window.location.replace(window.location.href.slice(0, -1));
-        }
-
         // Try to open the app when the page loads
         window.onload = function() {
             // First try App Links URL
