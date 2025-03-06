@@ -3,7 +3,15 @@
         "apps": [],
         "details": [{
             "appID": "A84NWMZFJP.com.webpartners.leonardo",
-            "paths": ["*", "/login", "/login/*"]
+            "paths": ["/login", "/login/*"],
+            "appIDs": ["A84NWMZFJP.com.webpartners.leonardo"],
+            "components": [{
+                "/": "/login",
+                "comment": "Matches the login path"
+            }, {
+                "/": "/login/*",
+                "comment": "Matches any path under login"
+            }]
         }]
     },
     "webcredentials": {
