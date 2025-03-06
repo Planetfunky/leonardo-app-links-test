@@ -6,7 +6,7 @@
     <title>Leonardo247 App Links Test</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -21,64 +21,85 @@
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            max-width: 600px;
+            max-width: 400px;
             width: 90%;
         }
         .button {
-            background-color: #007AFF;
-            color: white;
             padding: 12px 24px;
             border-radius: 6px;
             text-decoration: none;
             display: inline-block;
             margin: 10px 0;
             font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 200px;
         }
-        .button:hover {
+        .ios-button {
+            background-color: #007AFF;
+            color: white;
+        }
+        .ios-button:hover {
             background-color: #0056b3;
+        }
+        .android-button {
+            background-color: #1a73e8;
+            color: white;
+        }
+        .android-button:hover {
+            background-color: #1557b0;
         }
         .text {
             color: #666;
             margin: 1rem 0;
             line-height: 1.5;
         }
-        .code {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 4px;
-            text-align: left;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-        .info {
-            text-align: left;
-            margin: 2rem 0;
+        #platformMessage {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Leonardo247 App Links Test</h1>
-        <p class="text">This site is configured to test Android App Links for the Leonardo247 app.</p>
+        <h1>Leonardo247</h1>
+        <p class="text">Choose your platform to test deep linking</p>
         
-        <div class="info">
-            <h2>Test Links</h2>
-            <p>The following links are available for testing:</p>
-            <ul>
-                <li><a href="/login">Login Page (/login)</a> - Should open the app</li>
-                <li><a href="/.well-known/assetlinks.json">View assetlinks.json</a></li>
-            </ul>
-
-            <h2>Configuration</h2>
-            <p>This test site includes:</p>
-            <ul>
-                <li>Proper App Links configuration in <code>assetlinks.json</code></li>
-                <li>Login page that attempts to open the app</li>
-                <li>Fallback to Play Store if app is not installed</li>
-            </ul>
-        </div>
-
-        <a href="/login" class="button">Test App Link</a>
+        <a href="/login/ios.html" class="button ios-button" id="iosButton">
+            iOS Universal Links
+        </a>
+        <br>
+        <a href="/login/android.html" class="button android-button" id="androidButton">
+            Android App Links
+        </a>
+        
+        <p id="platformMessage"></p>
     </div>
+
+    <script>
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+
+        function isAndroid() {
+            return /Android/.test(navigator.userAgent);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const platformMessage = document.getElementById('platformMessage');
+            
+            if (isIOS()) {
+                platformMessage.textContent = "We detected you're using an iOS device";
+                window.location.href = '/login/ios.html';
+            } else if (isAndroid()) {
+                platformMessage.textContent = "We detected you're using an Android device";
+                window.location.href = '/login/android.html';
+            } else {
+                platformMessage.textContent = "Select your platform to continue";
+            }
+        });
+    </script>
 </body>
 </html>
