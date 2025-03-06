@@ -1,6 +1,8 @@
 [build]
-  publish = "/"
-  command = "#"  # Skip build command
+  # Publish from the root directory since we're serving static files
+  publish = "."
+  # No build needed
+  command = ":"
 
 [[headers]]
   for = "/.well-known/*"
