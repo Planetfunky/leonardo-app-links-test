@@ -1,5 +1,12 @@
 [[redirects]]
-  from = "/login/"
+  from = "/login/*"
   to = "/login"
+  status = 301
+  force = true
+
+# Handle trailing slashes globally
+[[redirects]]
+  from = "/*/"
+  to = ":splat"
   status = 301
   force = true
