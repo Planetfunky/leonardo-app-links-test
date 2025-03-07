@@ -1,6 +1,16 @@
 import { Link } from 'react-router-dom'
 
 function Login() {
+  const openApp = () => {
+    // Try both URL schemes
+    window.location.href = 'com.webpartners.Leonardo://login';
+    
+    // Fallback after a short delay
+    setTimeout(() => {
+      window.location.href = 'https://planetfunk-deelinking.netlify.app/login';
+    }, 1000);
+  };
+
   return (
     <div className="container">
       <h1>Login Page</h1>
@@ -13,6 +23,10 @@ function Login() {
           <li>Universal Links are not properly configured</li>
           <li>You're testing on a non-iOS device</li>
         </ul>
+        <button onClick={openApp} className="button" style={{ marginBottom: '10px' }}>
+          Open in Leonardo App
+        </button>
+        <br />
         <Link to="/" className="button">
           Back to Home
         </Link>
