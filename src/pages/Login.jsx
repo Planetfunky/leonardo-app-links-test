@@ -12,26 +12,26 @@ function Login() {
     // Only add token parameter if it exists
     const queryPart = token ? `?token=${encodeURIComponent(token)}` : '';
     
-    // Try both App Links and custom scheme
+    // Try custom scheme first since we're testing on emulator
+    const customSchemeUrl = `leonardo://login${queryPart}`;
     const appLinksUrl = `https://planetfunk-deelinking.netlify.app/login${queryPart}`;
-    const fallbackUrl = `leonardo://login${queryPart}`;
     
-    console.log('Attempting to open app with:', appLinksUrl);
-    setLastAttempt('Trying App Links URL: ' + appLinksUrl);
+    console.log('Attempting to open app with custom scheme:', customSchemeUrl);
+    setLastAttempt('Trying custom scheme: ' + customSchemeUrl);
     
-    // Try App Links first
-    window.location.href = appLinksUrl;
+    // Try custom scheme first (more reliable on emulator)
+    window.location.href = customSchemeUrl;
     
-    // If App Links fails, try custom scheme after a short delay
+    // If custom scheme fails, try App Links after a short delay
     setTimeout(() => {
       if (document.hidden || document.webkitHidden) {
         console.log('App opened successfully!');
         setLastAttempt('App opened successfully!');
         return;
       }
-      console.log('App Links failed, trying custom scheme:', fallbackUrl);
-      setLastAttempt('Trying custom scheme: ' + fallbackUrl);
-      window.location.href = fallbackUrl;
+      console.log('Custom scheme failed, trying App Links:', appLinksUrl);
+      setLastAttempt('Trying App Links URL: ' + appLinksUrl);
+      window.location.href = appLinksUrl;
       
       // Final check after another delay
       setTimeout(() => {
