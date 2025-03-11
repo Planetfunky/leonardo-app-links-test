@@ -5,12 +5,9 @@ function Login() {
   const [lastAttempt, setLastAttempt] = useState('');
 
   const openApp = () => {
-    // Get token from the current URL if it exists
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    
-    // Only add token parameter if it exists
-    const queryPart = token ? `?token=${encodeURIComponent(token)}` : '';
+    // Add a test token
+    const testToken = 'test_token_123';
+    const queryPart = `?token=${encodeURIComponent(testToken)}`;
     
     // Try custom scheme first since we're testing on emulator
     const customSchemeUrl = `leonardo://login${queryPart}`;
