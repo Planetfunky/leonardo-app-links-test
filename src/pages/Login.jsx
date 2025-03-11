@@ -3,7 +3,7 @@ import React from 'react';
 function Login() {
   const openApp = () => {
     const testToken = 'test_token_123';
-    const url = `leonardo://login?token=${testToken}`;
+    const url = `com.webpartners.Leonardo://login?token=${testToken}`;
     window.location.href = url;
   };
 
