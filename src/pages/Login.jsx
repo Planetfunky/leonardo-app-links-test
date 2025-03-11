@@ -10,11 +10,20 @@ function Login() {
     // Only add token parameter if it exists
     const queryPart = token ? `?token=${encodeURIComponent(token)}` : '';
     
-    // Custom URL scheme
-    const fallbackUrl = `leonardo://${queryPart}`;
+    // Try both App Links and custom scheme
+    const appLinksUrl = `https://planetfunk-deelinking.netlify.app/login${queryPart}`;
+    const fallbackUrl = `leonardo://login${queryPart}`;
     
-    // Try to open the app with the custom URL scheme
-    window.location.href = fallbackUrl;
+    // Try App Links first
+    window.location.href = appLinksUrl;
+    
+    // If App Links fails, try custom scheme after a short delay
+    setTimeout(() => {
+      if (document.hidden || document.webkitHidden) {
+        return; // App was opened, don't do anything
+      }
+      window.location.href = fallbackUrl;
+    }, 1000);
   };
 
   return (
