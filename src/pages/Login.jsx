@@ -10,39 +10,18 @@ function Login() {
     // Only add token parameter if it exists
     const queryPart = token ? `?token=${encodeURIComponent(token)}` : '';
     
-    // Primary: Try Android App Links URL
-    const appLinksUrl = `https://planetfunk-deelinking.netlify.app/login${queryPart}`;
-    
-    // Fallback: Custom URL scheme as backup
+    // Custom URL scheme
     const fallbackUrl = `leonardo://${queryPart}`;
     
-    // Try to open the app with App Links
-    window.location.href = appLinksUrl;
-    
-    // Set a timeout to try the fallback URL if App Links fails
-    setTimeout(() => {
-      // Check if we're still on the same page (App Links didn't work)
-      if (document.hidden || document.webkitHidden) {
-        return; // App was opened, don't do anything
-      }
-      
-      // Try fallback URL
-      window.location.href = fallbackUrl;
-      
-      // If both fail, we'll stay on this page
-    }, 1000);
+    // Try to open the app with the custom URL scheme
+    window.location.href = fallbackUrl;
   };
-
-  // Auto-trigger the app opening on component mount
-  React.useEffect(() => {
-    openApp();
-  }, []);
 
   return (
     <div className="container">
-      <h1>Redirecting to Leonardo app...</h1>
+      <h1>Open Leonardo App</h1>
       <div className="card">
-        <p>If the app doesn't open automatically, click below:</p>
+        <p>Click the button below to open the Leonardo app:</p>
         <button onClick={openApp} className="button">
           Open Leonardo App
         </button>
