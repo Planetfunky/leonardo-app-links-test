@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function Login() {
-  const [appVersion, setAppVersion] = useState(null);
+  const [appStatus, setAppStatus] = useState(null);
 
   const openApp = () => {
     const testToken = 'test_token_123';
@@ -9,42 +9,21 @@ function Login() {
     window.location.href = url;
   };
 
-  const checkAppVersion = () => {
-    // Create a unique callback URL using the current origin
-    const callbackUrl = `${window.location.origin}/version-callback`;
+  const checkAppInstalled = () => {
+    const now = Date.now();
     
-    // Create a listener for the version callback
-    const messageHandler = (event) => {
-      if (event.origin === window.location.origin) {
-        try {
-          const params = new URLSearchParams(event.data);
-          const version = params.get('version');
-          const build = params.get('build');
-          const platform = params.get('platform');
-          
-          if (version && platform) {
-            setAppVersion(`${platform} v${version} (${build})`);
-          }
-        } catch (e) {
-          console.error('Failed to parse version data:', e);
-        }
-      }
-    };
-
-    // Listen for the version callback
-    window.addEventListener('message', messageHandler);
-    
-    // Send version check request to app
-    const versionCheckUrl = `com.webpartners.Leonardo://version-check?callback=${encodeURIComponent(callbackUrl)}`;
-    window.location.href = versionCheckUrl;
-
-    // Clean up listener after 5 seconds
-    setTimeout(() => {
-      window.removeEventListener('message', messageHandler);
-      if (!appVersion) {
-        setAppVersion('App not installed or version check failed');
-      }
-    }, 5000);
+    // Try to open app store URLs
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+      // iOS: Use App Store URL
+      window.location.href = 'https://apps.apple.com/us/app/leonardo247/id1529731461';
+      setAppStatus('Checking App Store...');
+    } else if (/Android/.test(navigator.userAgent)) {
+      // Android: Use Play Store URL
+      window.location.href = 'market://details?id=com.webpartners.Leonardo';
+      setAppStatus('Checking Play Store...');
+    } else {
+      setAppStatus('Unknown platform - please check on your mobile device');
+    }
   };
 
   return (
@@ -55,12 +34,12 @@ function Login() {
         <button onClick={openApp} className="button">
           Open Leonardo App
         </button>
-        <button onClick={checkAppVersion} className="button" style={{ marginTop: '10px' }}>
+        <button onClick={checkAppInstalled} className="button" style={{ marginTop: '10px' }}>
           Check App Version
         </button>
-        {appVersion && (
+        {appStatus && (
           <p style={{ marginTop: '10px' }}>
-            App Version: {appVersion}
+            {appStatus}
           </p>
         )}
       </div>
